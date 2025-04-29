@@ -17,26 +17,31 @@ public class UniqueWords {
      * @return sorted set of unique words
      */
     public static Set<String> processDocument(File myfile) {
-        //TreeSet is use here because it both stores unique values and keeps them sorted.
+        // TreeSet is used to store words in sorted order and also automatically eliminate duplicates.
         Set<String> uniqueWords = new TreeSet<>();
 
         //Try-Catch is used for Error handling in case for a missing file.
-        try (Scanner scanner = new Scanner(myfile)) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
-                if (!line.isEmpty()) {
+        try (Scanner scanner = new Scanner(myfile)) { // It create a Scanner to read from the given file.
+            while (scanner.hasNextLine()) { // Loop through each line of the file until there are no more lines.
+                String line = scanner.nextLine().trim(); // Read the next line and remove leading/trailing white spaces.
+                if (!line.isEmpty()) { // Proceed only if the line is not empty.
+                    // Call the tokenize method (assumed it split the line into words) and store the result in an array.
                     String[] words = tokenize(line);
+                    // Loop through each word in the array.
                     for (String word : words) {
+                        // Add non-empty words to the set to ensure uniqueness and sorting.
                         if (!word.isEmpty()) {
                             uniqueWords.add(word);
                         }
                     }
                 }
             }
+            // If the file is not found, catch the exception and print an error message.
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + myfile.getName());
         }
 
+        // Return the set of unique, sorted words.
         return uniqueWords;
     }
 
